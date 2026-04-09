@@ -4,14 +4,14 @@ import Task from "../models/task.model.js";
 export const getAllProjects = async (userId) => {
   return await Project.find({
     $or: [{ owner: userId }, { members: userId }]
-  }).populate("owner", "username email");
+  }).populate("owner members", "username email role");
 };
 
 export const getProjectById = async (projectId, userId) => {
   const project = await Project.findOne({
     _id: projectId,
     $or: [{ owner: userId }, { members: userId }]
-  }).populate("owner members", "username email");
+  }).populate("owner members", "username email role");
   
   if (!project) {
     throw new Error("Project not found");

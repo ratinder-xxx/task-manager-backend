@@ -20,12 +20,16 @@ dotenv.config();
 const app = express();
 const server = createServer(app);
 
+const isProd = process.env.NODE_ENV === "production";
+
 // Security middleware
 app.use(helmet());
-app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:3000",
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL || "http://localhost:3001",
+    credentials: true,
+  }),
+);
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -33,7 +37,7 @@ app.use(express.urlencoded({ extended: true }));
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 100
+  max: 100,
 });
 app.use("/api", limiter);
 
@@ -57,7 +61,7 @@ const startServer = async () => {
     await connectDB();
     // await initRedis();
     initializeSocket(server);
-    
+
     const PORT = process.env.PORT || 3000;
     server.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
