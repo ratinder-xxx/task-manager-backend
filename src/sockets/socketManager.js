@@ -1,8 +1,6 @@
 import { Server } from "socket.io";
 import { verifyToken } from "../jwt/generateToken.js";
 import User from "../models/user.model.js";
-// import { createAdapter } from "@socket.io/redis-adapter";
-// import { getRedisClient } from "../config/redis.js";
 
 let io = null;
 const userSockets = new Map();
@@ -15,9 +13,6 @@ export const initializeSocket = async (server) => {
     },
   });
 
-  //  const redisClient = await getRedisClient();
-  // const subClient = redisClient.duplicate();
-  // io.adapter(createAdapter(redisClient, subClient));
 
   io.use(async (socket, next) => {
     try {
