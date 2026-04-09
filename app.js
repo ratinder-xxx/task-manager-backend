@@ -51,18 +51,6 @@ app.get("/health", (req, res) => {
 // Error handling
 app.use(errorHandler);
 
-
-//------code for deployment-------
-
-if (process.env.NODE_ENV === "production") {
-  const dirPath = path.resolve();
-
-  app.use(express.static("./frontend/dist"));
-  app.get("/", (req, res) => {
-    res.sendFile(path.resolve(dirPath, "./frontend/dist", "index.html"));
-  });
-}
-
 // Initialize services
 const startServer = async () => {
   try {
